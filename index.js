@@ -3,6 +3,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import multer from 'multer';
 import cors from 'cors';
+import dotenv from 'dotenv';
 
 
 import { registerValidation, loginValidation, postCreateValidation } from './validations.js';
@@ -14,6 +15,9 @@ import { checkAuth, handeValidationErrors } from './utils/index.js';
 
 dns.setServers(["1.1.1.1"]);
 // console.log(await dns.getServers());
+
+dotenv.config();
+
 
 mongoose
 	.connect(process.env.MONGO_DB_URI)
@@ -60,7 +64,7 @@ app.delete('/posts/:id', checkAuth, PostController.remove);
 app.patch('/posts/:id', checkAuth, postCreateValidation, handeValidationErrors, PostController.update);
 
 
-app.listen(process.env.port || 4444, (err) => {
+app.listen(process.env.PORT || 4444, (err) => {
 	if (err) { return console.log(err); }
 	console.log('Server OK');
 });
